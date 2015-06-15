@@ -18,7 +18,7 @@
 				</div>
 				<div id="navbar" class="navbar-collapse collapse">
 					<ul class="nav navbar-nav">
-						<li class="dropdown open"><a href="#" class="dropdown-toggle"
+						<li class="dropdown"><a href="#" class="dropdown-toggle"
 							data-toggle="dropdown" role="button" aria-expanded="true">Notificacao
 								<span class="caret"></span>
 						</a>
@@ -29,7 +29,7 @@
 					</ul>
 
 					<ul class="nav navbar-nav">
-						<li class="dropdown open"><a href="#" class="dropdown-toggle"
+						<li class="dropdown"><a href="#" class="dropdown-toggle"
 							data-toggle="dropdown" role="button" aria-expanded="true">Codicao
 								Fisica <span class="caret"></span>
 						</a>
@@ -38,8 +38,16 @@
 										CF</a></li>
 							</ul></li>
 					</ul>
+					<ul class="nav navbar-nav">
+						<li class="dropdown"><a href="#" class="dropdown-toggle"
+							data-toggle="dropdown" role="button" aria-expanded="true">Nutrição <span class="caret"></span>
+						</a>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="/webapplication/cliente/listarHistoricoDieta">Historico Dieta </a></li>
+							</ul></li>
+					</ul>
 					<ul class="nav navbar-nav navbar-right">
-						<li><a href="sair">Sair</a></li>
+						<li><a href="/webapplication/sair">Sair</a></li>
 					</ul>
 				</div>
 				<!--/.nav-collapse -->
