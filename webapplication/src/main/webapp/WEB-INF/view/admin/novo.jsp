@@ -26,7 +26,7 @@ body {
 </head>
 <body>
 	<div class="container">
-		<form class="form-horizontal" style="width: 500px;" action="cadastraCondicaFisicaCliente" method="post">
+		<form class="form-horizontal" style="width: 500px;" action="/webapplication/administracao/adicionaCliente" method="post">
 			
 			<div class="form-group form-group-sm">
 				<label class="col-sm-2 control-label" for="email"> Email</label>

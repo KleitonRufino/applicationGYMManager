@@ -4,7 +4,7 @@
 
 <header class="headerMain">
 	<div class="container">
-	<nav class="navbar navbar-default">
+		<nav class="navbar navbar-default">
 			<div class="container-fluid">
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle collapsed"
@@ -27,7 +27,7 @@
 								<li><a href="/webapplication/administracao/clientes">Lista</a></li>
 							</ul></li>
 					</ul>
-					
+
 					<ul class="nav navbar-nav">
 						<li class="dropdown open"><a href="#" class="dropdown-toggle"
 							data-toggle="dropdown" role="button" aria-expanded="true">Conta
@@ -38,8 +38,18 @@
 								<li><a href="/webapplication/administracao/listaConta">Lista</a></li>
 							</ul></li>
 					</ul>
-						
-					
+
+
+					<ul class="nav navbar-nav">
+						<li class="dropdown open"><a href="#" class="dropdown-toggle"
+							data-toggle="dropdown" role="button" aria-expanded="true">Dieta
+								<span class="caret"></span>
+						</a>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="/webapplication/administracao/listaClientesNutrition">Nova</a></li>
+							</ul></li>
+					</ul>
+
 					<ul class="nav navbar-nav">
 						<li class="dropdown open"><a href="#" class="dropdown-toggle"
 							data-toggle="dropdown" role="button" aria-expanded="true">Outros
@@ -48,12 +58,12 @@
 							<ul class="dropdown-menu" role="menu">
 								<li><a href="/webapplication/administracao/notificaCliente">Notificacao</a></li>
 								<li><a href="/webapplication/administracao/enviaEmail">Email</a></li>
-								<li><a href="/webapplication/administracao/listClientCondition">Condicao</a></li>
+								<li><a
+									href="/webapplication/administracao/listClientCondition">Condicao</a></li>
 							</ul></li>
 					</ul>
-					
-					
-					
+
+
 					<ul class="nav navbar-nav navbar-right">
 						<li><a href="sair">Sair</a></li>
 					</ul>

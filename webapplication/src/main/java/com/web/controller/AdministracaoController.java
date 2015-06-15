@@ -18,12 +18,15 @@ import br.com.costumerManagement.service.IClientManager;
 import br.com.costumerManagement.service.impl.ClientManagerImpl;
 import br.com.model.Billing;
 import br.com.model.BodyCondition;
+import br.com.model.Diet;
 import br.com.notification.service.IManagerNotification;
 import br.com.notification.service.impl.ManagerNotification;
 import br.com.service.IManagerBilling;
 import br.com.service.IManagerBodyCondition;
+import br.com.service.IManagerDiet;
 import br.com.service.impl.ManagerBilling;
 import br.com.service.impl.ManagerBodyConditionImpl;
+import br.com.service.impl.ManagerDietImpl;
 
 import com.service.IManagerMail;
 import com.service.impl.ManagerGmail;
@@ -37,6 +40,8 @@ public class AdministracaoController {
 	private IManagerMail managerMail;
 	private IManagerBodyCondition managerBodyCondition;
 	private IManagerBilling managerBilling;
+	private IManagerDiet managerDiet;
+
 	public AdministracaoController() {
 		this.managerClient = new ClientManagerImpl();
 		this.managerAccount = new UsuarioManagerImpl();
@@ -44,6 +49,7 @@ public class AdministracaoController {
 		this.managerMail = new ManagerGmail();
 		this.managerBodyCondition = new ManagerBodyConditionImpl();
 		this.managerBilling = new ManagerBilling();
+		this.managerDiet = new ManagerDietImpl();
 	}
 
 	@RequestMapping(value = "/clientes", method = RequestMethod.GET)
@@ -90,13 +96,37 @@ public class AdministracaoController {
 	public String novaConta(Model model) {
 		return "admin/contaNova";
 	}
-	
+
 	@RequestMapping(value = "/listaContas", method = RequestMethod.GET)
 	public String listarContas(Model model) {
 		model.addAttribute("contas", this.managerBilling.findAll());
 		return "admin/listaConta";
 	}
-	
+
+	@RequestMapping(value = "/listaClientesNutrition")
+	public String listarClientesDietas(Model model) {
+		model.addAttribute("clientes", this.managerClient.findAll());
+		return "admin/listaClientesNutrition";
+	}
+
+	@RequestMapping(value = "/novaNutrition", method = RequestMethod.GET)
+	public String novaNutrition(Long id, Model model) {
+		model.addAttribute("idCliente", id);
+		return "admin/novaNutrition";
+	}
+
+	@RequestMapping(value = "/cadastraNutrition")
+	public String cadastrarNutrition(
+			@RequestParam("description") String description,
+			@RequestParam("idCliente") Long idClient, Model model, RedirectAttributes redirect) {
+		Diet diet = new Diet();
+		diet.setDescription(description);
+		diet.setDiadasemana(new Date(System.currentTimeMillis()));
+		this.managerDiet.save(diet, idClient);
+		redirect.addFlashAttribute("info", "Dieta cadastrada !");
+		return "redirect:listaClientesNutrition";
+	}
+
 	@RequestMapping(value = "/alterarCliente", method = RequestMethod.POST)
 	public String alterarCliente(Client client, Model model,
 			RedirectAttributes redirect) {
@@ -160,7 +190,7 @@ public class AdministracaoController {
 	@RequestMapping(value = "cadastraNovaConta")
 	public String cadastrarNovaConta(Billing billing, Model model,
 			RedirectAttributes redirect) {
-		this.managerBilling.save(billing);	
+		this.managerBilling.save(billing);
 		redirect.addFlashAttribute("info", "Nova Conta cadastrada com sucesso!");
 		return "redirect:listaContas";
 	}
