@@ -20,6 +20,8 @@ import br.com.model.Billing;
 import br.com.model.BodyCondition;
 import br.com.model.Colaborator;
 import br.com.model.Diet;
+import br.com.model.Product;
+import br.com.model.Supplier;
 import br.com.notification.model.Notification;
 import br.com.notification.service.IManagerNotification;
 import br.com.notification.service.impl.ManagerNotification;
@@ -27,10 +29,14 @@ import br.com.service.IManagerBilling;
 import br.com.service.IManagerBodyCondition;
 import br.com.service.IManagerColaborator;
 import br.com.service.IManagerDiet;
+import br.com.service.IManagerProduct;
+import br.com.service.IManagerSupplier;
 import br.com.service.impl.ManagerBilling;
 import br.com.service.impl.ManagerBodyConditionImpl;
 import br.com.service.impl.ManagerColaboratorImpl;
 import br.com.service.impl.ManagerDietImpl;
+import br.com.service.impl.ManagerProduct;
+import br.com.service.impl.ManagerSupplierImpl;
 
 import com.service.IManagerMail;
 import com.service.impl.ManagerGmail;
@@ -46,6 +52,8 @@ public class AdministracaoController {
 	private IManagerBilling managerBilling;
 	private IManagerDiet managerDiet;
 	private IManagerColaborator managerColaborator;
+	private IManagerSupplier managerSupplier;
+	private IManagerProduct managerProduct;
 	public AdministracaoController() {
 		this.managerClient = new ClientManagerImpl();
 		this.managerAccount = new UsuarioManagerImpl();
@@ -55,6 +63,8 @@ public class AdministracaoController {
 		this.managerBilling = new ManagerBilling();
 		this.managerDiet = new ManagerDietImpl();
 		this.managerColaborator = new ManagerColaboratorImpl();
+		this.managerSupplier = new ManagerSupplierImpl();
+		this.managerProduct = new ManagerProduct();
 	}
 
 	@RequestMapping(value = "/clientes", method = RequestMethod.GET)
@@ -120,10 +130,53 @@ public class AdministracaoController {
 		return "admin/novaNutrition";
 	}
 
+	@RequestMapping(value = "/novoFornecedor")
+	public String novoFornecedor(Model model) {
+		return "admin/novoFornecedor";
+	}
+
+	@RequestMapping(value = "/adicionaFornecedor")
+	public String cadastrarFornecedor(Supplier supplier, Model model,
+			RedirectAttributes redirect) {
+		this.managerSupplier.addSupplier(supplier);
+		redirect.addFlashAttribute("info", "Cadastrado " + supplier.getNome()
+				+ " com sucesso!");
+		return "redirect:listaFornecedor";
+	}
+
+	@RequestMapping(value = "/listaFornecedor")
+	public String listarFornecedores(Model model) {
+		model.addAttribute("fornecedores", this.managerSupplier.findAll());
+		return "admin/listaFornecedor";
+	}
+	
+	@RequestMapping(value = "/novoProduto", method = RequestMethod.GET)
+	public String novoProdutoFornecedor(Long id, Model model){
+		model.addAttribute("idFornecedor", id);
+		return "admin/novoProduto";
+	}
+	
+	@RequestMapping(value = "/adicionaProduto")
+	public String adicionaProduto(Product product, @RequestParam("idFornecedor") Long id, Model model, RedirectAttributes redirect){
+		this.managerProduct.save(product, id);
+		model.addAttribute("fornecedor", this.managerSupplier.findById(id));
+		model.addAttribute("produtos", this.managerProduct.findByIdFornecedor(id));
+		redirect.addFlashAttribute("info", "Produto cadastrado com sucesso!");
+		return "admin/listaProdutosFornecedor";
+	}
+	
+	@RequestMapping(value = "/listarProdutos")
+	public String listarProdutosFornecedor(Long id,Model model){
+		model.addAttribute("fornecedor", this.managerSupplier.findById(id));
+		model.addAttribute("produtos", this.managerProduct.findByIdFornecedor(id));
+		return "admin/listaProdutosFornecedor";
+	}
+	
 	@RequestMapping(value = "/cadastraNutrition")
 	public String cadastrarNutrition(
 			@RequestParam("description") String description,
-			@RequestParam("idCliente") Long idClient, Model model, RedirectAttributes redirect) {
+			@RequestParam("idCliente") Long idClient, Model model,
+			RedirectAttributes redirect) {
 		Diet diet = new Diet();
 		diet.setDescription(description);
 		diet.setDiadasemana(new Date(System.currentTimeMillis()));
@@ -133,23 +186,26 @@ public class AdministracaoController {
 	}
 
 	@RequestMapping(value = "/novoColaborator")
-	public String novoColaborator(Model model){
+	public String novoColaborator(Model model) {
 		return "admin/novoColaborator";
 	}
-	
+
 	@RequestMapping(value = "/cadastraColaborator")
-	public String cadastrarColaborator(Colaborator colaborator, Model model, RedirectAttributes redirects){
+	public String cadastrarColaborator(Colaborator colaborator, Model model,
+			RedirectAttributes redirects) {
 		this.managerColaborator.addColaborator(colaborator);
-		redirects.addFlashAttribute("info", "Colaborador " + colaborator.getNome() + " adicionado com sucesso!");
+		redirects.addFlashAttribute("info",
+				"Colaborador " + colaborator.getNome()
+						+ " adicionado com sucesso!");
 		return "redirect:listaColaborator";
 	}
-	
+
 	@RequestMapping(value = "/listaColaborator", method = RequestMethod.GET)
-	public String listaColaborator(Model model){
+	public String listaColaborator(Model model) {
 		model.addAttribute("colaborators", this.managerColaborator.findAll());
 		return "admin/listaColaborator";
 	}
-	
+
 	@RequestMapping(value = "/alterarCliente", method = RequestMethod.POST)
 	public String alterarCliente(Client client, Model model,
 			RedirectAttributes redirect) {

@@ -61,6 +61,18 @@
 							</ul></li>
 					</ul>
 					
+					
+					<ul class="nav navbar-nav">
+						<li class="dropdown open"><a href="#" class="dropdown-toggle"
+							data-toggle="dropdown" role="button" aria-expanded="true">Fornecedor
+								<span class="caret"></span>
+						</a>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="/webapplication/administracao/novoFornecedor">Novo</a></li>
+								<li><a href="/webapplication/administracao/listaFornecedor">Lista</a></li>
+							</ul></li>
+					</ul>
+					
 						
 					<ul class="nav navbar-nav">
 						<li class="dropdown open"><a href="#" class="dropdown-toggle"
