@@ -14,8 +14,8 @@ public class ManagerBodyConditionImpl implements IManagerBodyCondition {
 	
 	
 	@Override
-	public List<BodyCondition> findByUser(Long idClient) {
-		return this.dao.findByUser(idClient);
+	public List<BodyCondition> findByUser(Long idUser) {
+		return this.dao.findByUser(idUser);
 	}
 
 	@Override

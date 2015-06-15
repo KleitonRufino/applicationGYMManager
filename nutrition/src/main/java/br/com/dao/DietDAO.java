@@ -67,7 +67,7 @@ public class DietDAO {
 		List<Diet> diets = new ArrayList<Diet>();
 		Connection conexao = Conexao.getConnection();
 		PreparedStatement find = null;
-		String sql = "select * from dieta c where idCliente=?";
+		String sql = "select * from dieta c where cliente_id=?";
 		try {
 			find = (PreparedStatement) conexao.prepareStatement(sql);
 			find.setLong(1, idClient);
