@@ -12,15 +12,15 @@ import conexao.Conexao;
 
 public class BodyConditionDAO {
 
-	public List<BodyCondition> findByUser(Long idClient) {
+	public List<BodyCondition> findByUser(Long idUser) {
 		BodyCondition condition;
 		List<BodyCondition> conditions = new ArrayList<BodyCondition>();
 		Connection conexao = Conexao.getConnection();
 		PreparedStatement find = null;
-		String sql = "select * from condicaofisica c where cliente_id=? order by datadacondicao desc";
+		String sql = "select * from condicaofisica c where usuario_id=? order by datadacondicao desc";
 		try {
 			find = (PreparedStatement) conexao.prepareStatement(sql);
-			find.setLong(1, idClient);
+			find.setLong(1, idUser);
 			ResultSet rs = find.executeQuery();
 			while (rs.next()) {
 				condition = new BodyCondition();
@@ -29,6 +29,7 @@ public class BodyConditionDAO {
 				condition.setAntebraco(rs.getDouble("antebraco"));
 				condition.setBiceps(rs.getDouble("biceps"));
 				condition.setCintura(rs.getDouble("cintura"));
+				condition.setPanturilha(rs.getDouble("panturrilha"));
 				condition.setCoxa(rs.getDouble("coxa"));
 				condition.setDatadacondicao(rs.getDate("datadacondicao"));
 				condition.setGluteo(rs.getDouble("gluteo"));
@@ -49,14 +50,14 @@ public class BodyConditionDAO {
 		return conditions;
 	}
 
-	public BodyCondition currentBodyCondition(Long idClient) {
+	public BodyCondition currentBodyCondition(Long idUser) {
 		BodyCondition condition = new BodyCondition();
 		Connection conexao = Conexao.getConnection();
 		PreparedStatement find = null;
-		String sql = "select * from condicaofisica c where cliente_id=? order by datadacondicao desc LIMIT 1";
+		String sql = "select * from condicaofisica c where usuario_id=? order by datadacondicao desc LIMIT 1";
 		try {
 			find = (PreparedStatement) conexao.prepareStatement(sql);
-			find.setLong(1, idClient);
+			find.setLong(1, idUser);
 			ResultSet rs = find.executeQuery();
 			while (rs.next()) {
 				condition.setId(rs.getLong("id"));
@@ -64,6 +65,7 @@ public class BodyConditionDAO {
 				condition.setAntebraco(rs.getDouble("antebraco"));
 				condition.setBiceps(rs.getDouble("biceps"));
 				condition.setCintura(rs.getDouble("cintura"));
+				condition.setPanturilha(rs.getDouble("panturrilha"));
 				condition.setCoxa(rs.getDouble("coxa"));
 				condition.setDatadacondicao(rs.getDate("datadacondicao"));
 				condition.setGluteo(rs.getDouble("gluteo"));
@@ -83,10 +85,10 @@ public class BodyConditionDAO {
 		return condition;
 	}
 
-	public void addBodyCondition(BodyCondition condition, Long idClient) {
+	public void addBodyCondition(BodyCondition condition, Long idUser) {
 		Connection conexao = Conexao.getConnection();
 		PreparedStatement insere = null;
-		String sql = "insert into condicaofisica(altura,antebraco,biceps,cintura,coxa,datadacondicao,gluteo, mtorax, panturrilha, peso, cliente_id) values (?,?,?,?,?,?, ?, ?, ?, ?, ?)";
+		String sql = "insert into condicaofisica(altura,antebraco,biceps,cintura,coxa,datadacondicao,gluteo, mtorax, panturrilha, peso, usuario_id) values (?,?,?,?,?,?, ?, ?, ?, ?, ?)";
 		try {
 			insere = (PreparedStatement) conexao.prepareStatement(sql);
 			insere.setDouble(1, condition.getAltura());
@@ -99,7 +101,7 @@ public class BodyConditionDAO {
 			insere.setDouble(8, condition.getMtorax());
 			insere.setDouble(9, condition.getPanturilha());
 			insere.setDouble(10, condition.getPeso());
-			insere.setLong(11, idClient);
+			insere.setLong(11, idUser);
 			insere.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

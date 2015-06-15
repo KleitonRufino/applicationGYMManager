@@ -18,6 +18,7 @@ import br.com.accoutManager.service.IUsuarioManager;
 @RequestMapping
 public class LoginController {
 	private IUsuarioManager iUsuarioManager;
+
 	public LoginController() {
 		this.iUsuarioManager = new UsuarioManagerImpl();
 	}
@@ -46,18 +47,24 @@ public class LoginController {
 			HttpServletRequest request) {
 		if (!email.isEmpty() && !senha.isEmpty()) {
 			Usuario user = this.iUsuarioManager.find(email, senha);
-			if ("admin@gmail.com".equals(user.getLogin()) && "1234".equals(user.getSenha())) {
-				
+			if ("admin@gmail.com".equals(user.getLogin())
+					&& "1234".equals(user.getSenha())) {
 				HttpSession session = request.getSession(true);
 				session.setAttribute("idUser", user.getId());
 				session.setAttribute("email", user.getLogin());
 				session.setAttribute("senha", user.getSenha());
 				return "/admin/index";
+			} else {
+				if ("eri_squall@hotmail.com".equals(user.getLogin())
+						&& "1234".equals(user.getSenha())) {
+					HttpSession session = request.getSession(true);
+					session.setAttribute("idUser", user.getId());
+					session.setAttribute("email", user.getLogin());
+					session.setAttribute("senha", user.getSenha());
+					return "/cliente/index";
+				}
 			}
 		}
-
 		return "redirect:loginfailed";
-
 	}
-
 }

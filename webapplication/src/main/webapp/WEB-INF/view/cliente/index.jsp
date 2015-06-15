@@ -2,9 +2,14 @@
 <html>
 <head>
 
-<script src="resources/js/jquery-2.1.4.min.js" type="text/javascript"></script>
-<link href="resources/css/bootstrap.min.css" rel="stylesheet" />
-<script src="resources/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 <style type="text/css">
 body {
 	padding-top: 20px;
@@ -16,30 +21,12 @@ body {
 }
 </style>
 
+<jsp:include page="../modulos/headerCliente.jsp" />
 <title>Insert title here</title>
 </head>
 <body>
-	<div class="container">
-		<nav class="navbar navbar-default">
-			<div class="container-fluid">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle collapsed"
-						data-toggle="collapse" data-target="#navbar" aria-expanded="false"
-						aria-controls="navbar">
-						<span class="sr-only">Toggle navigation</span> <span
-							class="icon-bar"></span> <span class="icon-bar"></span> <span
-							class="icon-bar"></span>
-					</button>
-					<a class="navbar-brand" href="#">GYMManger</a>
-				</div>
-				<div id="navbar" class="navbar-collapse collapse">
-					<ul class="nav navbar-nav navbar-right">
-						<li><a href="../navbar-fixed-top/">Sair</a></li>
-					</ul>
-				</div>
-			</div>
-		</nav>
-	</div>
+	<div class="container"></div>
+
 
 </body>
 </html>
