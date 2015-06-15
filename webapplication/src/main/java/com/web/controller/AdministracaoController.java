@@ -52,12 +52,9 @@ public class AdministracaoController {
 	private IManagerBilling managerBilling;
 	private IManagerDiet managerDiet;
 	private IManagerColaborator managerColaborator;
-<<<<<<< HEAD
-
-=======
 	private IManagerSupplier managerSupplier;
 	private IManagerProduct managerProduct;
->>>>>>> branch 'master' of https://github.com/KleitonRufino/applicationGYMManager.git
+
 	public AdministracaoController() {
 		this.managerClient = new ClientManagerImpl();
 		this.managerAccount = new UsuarioManagerImpl();
@@ -158,29 +155,33 @@ public class AdministracaoController {
 		model.addAttribute("fornecedores", this.managerSupplier.findAll());
 		return "admin/listaFornecedor";
 	}
-	
+
 	@RequestMapping(value = "/novoProduto", method = RequestMethod.GET)
-	public String novoProdutoFornecedor(Long id, Model model){
+	public String novoProdutoFornecedor(Long id, Model model) {
 		model.addAttribute("idFornecedor", id);
 		return "admin/novoProduto";
 	}
-	
+
 	@RequestMapping(value = "/adicionaProduto")
-	public String adicionaProduto(Product product, @RequestParam("idFornecedor") Long id, Model model, RedirectAttributes redirect){
+	public String adicionaProduto(Product product,
+			@RequestParam("idFornecedor") Long id, Model model,
+			RedirectAttributes redirect) {
 		this.managerProduct.save(product, id);
 		model.addAttribute("fornecedor", this.managerSupplier.findById(id));
-		model.addAttribute("produtos", this.managerProduct.findByIdFornecedor(id));
+		model.addAttribute("produtos",
+				this.managerProduct.findByIdFornecedor(id));
 		redirect.addFlashAttribute("info", "Produto cadastrado com sucesso!");
 		return "admin/listaProdutosFornecedor";
 	}
-	
+
 	@RequestMapping(value = "/listarProdutos")
-	public String listarProdutosFornecedor(Long id,Model model){
+	public String listarProdutosFornecedor(Long id, Model model) {
 		model.addAttribute("fornecedor", this.managerSupplier.findById(id));
-		model.addAttribute("produtos", this.managerProduct.findByIdFornecedor(id));
+		model.addAttribute("produtos",
+				this.managerProduct.findByIdFornecedor(id));
 		return "admin/listaProdutosFornecedor";
 	}
-	
+
 	@RequestMapping(value = "/cadastraNutrition")
 	public String cadastrarNutrition(
 			@RequestParam("description") String description,
