@@ -19,6 +19,7 @@ import br.com.costumerManagement.service.impl.ClientManagerImpl;
 import br.com.model.Billing;
 import br.com.model.BodyCondition;
 import br.com.model.Diet;
+import br.com.notification.model.Notification;
 import br.com.notification.service.IManagerNotification;
 import br.com.notification.service.impl.ManagerNotification;
 import br.com.service.IManagerBilling;
@@ -195,4 +196,16 @@ public class AdministracaoController {
 		return "redirect:listaContas";
 	}
 
+	@RequestMapping(value = "cadastraNotificacao")
+	public String notificarCliente(@RequestParam("mensagem") String mensagem,
+			Model model, RedirectAttributes redirect) {
+		Notification notification = new Notification();
+		notification.setData(new Date(System.currentTimeMillis()));
+		notification.setMensagem(mensagem);
+		this.managerNotification.save(notification);
+		redirect.addFlashAttribute("info",
+				"Notificacao cadastrada com sucesso!");
+		return "redirect:notificaCliente";
+
+	}
 }
