@@ -55,6 +55,12 @@
 			<version>1.0</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.reuso</groupId>
+			<artifactId>supplierManagement</artifactId>
+			<version>1.0</version>
+		</dependency>
+
 		<!-- Spring -->
 		<dependency>
 			<groupId>org.springframework</groupId>

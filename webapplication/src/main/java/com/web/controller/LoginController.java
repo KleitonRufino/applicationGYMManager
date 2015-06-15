@@ -55,8 +55,7 @@ public class LoginController {
 				session.setAttribute("senha", user.getSenha());
 				return "/admin/index";
 			} else {
-				if ("eri_squall@hotmail.com".equals(user.getLogin())
-						&& "1234".equals(user.getSenha())) {
+				if (!user.getLogin().isEmpty() && !user.getSenha().isEmpty()) {
 					HttpSession session = request.getSession(true);
 					session.setAttribute("idUser", user.getId());
 					session.setAttribute("email", user.getLogin());
