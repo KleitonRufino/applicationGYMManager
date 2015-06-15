@@ -18,6 +18,7 @@ import br.com.costumerManagement.service.IClientManager;
 import br.com.costumerManagement.service.impl.ClientManagerImpl;
 import br.com.model.Billing;
 import br.com.model.BodyCondition;
+import br.com.notification.model.Notification;
 import br.com.notification.service.IManagerNotification;
 import br.com.notification.service.impl.ManagerNotification;
 import br.com.service.IManagerBilling;
@@ -37,6 +38,7 @@ public class AdministracaoController {
 	private IManagerMail managerMail;
 	private IManagerBodyCondition managerBodyCondition;
 	private IManagerBilling managerBilling;
+
 	public AdministracaoController() {
 		this.managerClient = new ClientManagerImpl();
 		this.managerAccount = new UsuarioManagerImpl();
@@ -90,13 +92,13 @@ public class AdministracaoController {
 	public String novaConta(Model model) {
 		return "admin/contaNova";
 	}
-	
+
 	@RequestMapping(value = "/listaContas", method = RequestMethod.GET)
 	public String listarContas(Model model) {
 		model.addAttribute("contas", this.managerBilling.findAll());
 		return "admin/listaConta";
 	}
-	
+
 	@RequestMapping(value = "/alterarCliente", method = RequestMethod.POST)
 	public String alterarCliente(Client client, Model model,
 			RedirectAttributes redirect) {
@@ -160,9 +162,21 @@ public class AdministracaoController {
 	@RequestMapping(value = "cadastraNovaConta")
 	public String cadastrarNovaConta(Billing billing, Model model,
 			RedirectAttributes redirect) {
-		this.managerBilling.save(billing);	
+		this.managerBilling.save(billing);
 		redirect.addFlashAttribute("info", "Nova Conta cadastrada com sucesso!");
 		return "redirect:listaContas";
 	}
 
+	@RequestMapping(value = "cadastraNotificacao")
+	public String notificarCliente(@RequestParam("mensagem") String mensagem,
+			Model model, RedirectAttributes redirect) {
+		Notification notification = new Notification();
+		notification.setData(new Date(System.currentTimeMillis()));
+		notification.setMensagem(mensagem);
+		this.managerNotification.save(notification);
+		redirect.addFlashAttribute("info",
+				"Notificacao cadastrada com sucesso!");
+		return "redirect:notificaCliente";
+
+	}
 }
