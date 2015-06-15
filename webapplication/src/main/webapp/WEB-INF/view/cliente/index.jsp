@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
 
@@ -25,7 +25,17 @@ body {
 <title>Insert title here</title>
 </head>
 <body>
-	<div class="container"></div>
+	<div class="container">
+		<c:if test="${not empty info}">
+			<div class="alert alert-info alert-dismissible" role="alert"
+				style="height: 50px;">
+				<button type="button" class="close" data-dismiss="alert">
+					<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+				</button>
+				<c:out value="${info}"></c:out>
+			</div>
+		</c:if>
+	</div>
 
 
 </body>

@@ -8,7 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import br.com.costumerManagement.model.Client;
 import br.com.costumerManagement.service.IClientManager;
 import br.com.costumerManagement.service.impl.ClientManagerImpl;
 import br.com.model.BodyCondition;
@@ -41,6 +43,27 @@ public class ClienteController {
 		List<Notification> notifications = this.managerNotification.findAll();
 		model.addAttribute("notifications", notifications);
 		return "cliente/listaNotificacao";
+	}
+
+	@RequestMapping(value = "/editar", method = RequestMethod.GET)
+	public String editarCliente(Model model, HttpSession session) {
+		model.addAttribute("cliente", this.managerClient.findByIdUser(Long
+				.parseLong(session.getAttribute("idUser").toString())));
+		return "cliente/editar";
+	}
+
+	@RequestMapping(value = "/alterarCliente", method = RequestMethod.POST)
+	public String alterarCliente(Client client, Model model,
+			RedirectAttributes redirect) {
+		this.managerClient.update(client);
+		redirect.addFlashAttribute("info", "Cliente " + client.getNome()
+				+ " editado com sucesso");
+		return "cliente/index";
+	}
+
+	@RequestMapping(value = "/voltarIndex", method = RequestMethod.GET)
+	public String voltarIndex() {
+		return "cliente/index";
 	}
 
 	@RequestMapping(value = "/listarBodyCondition", method = RequestMethod.GET)
