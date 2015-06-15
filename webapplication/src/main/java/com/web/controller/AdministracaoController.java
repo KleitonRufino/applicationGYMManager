@@ -16,11 +16,13 @@ import br.com.accoutManager.service.IUsuarioManager;
 import br.com.costumerManagement.model.Client;
 import br.com.costumerManagement.service.IClientManager;
 import br.com.costumerManagement.service.impl.ClientManagerImpl;
+import br.com.model.Billing;
 import br.com.model.BodyCondition;
-import br.com.notification.model.Notification;
 import br.com.notification.service.IManagerNotification;
 import br.com.notification.service.impl.ManagerNotification;
+import br.com.service.IManagerBilling;
 import br.com.service.IManagerBodyCondition;
+import br.com.service.impl.ManagerBilling;
 import br.com.service.impl.ManagerBodyConditionImpl;
 
 import com.service.IManagerMail;
@@ -34,12 +36,14 @@ public class AdministracaoController {
 	private IManagerNotification managerNotification;
 	private IManagerMail managerMail;
 	private IManagerBodyCondition managerBodyCondition;
+	private IManagerBilling managerBilling;
 	public AdministracaoController() {
 		this.managerClient = new ClientManagerImpl();
 		this.managerAccount = new UsuarioManagerImpl();
 		this.managerNotification = new ManagerNotification();
 		this.managerMail = new ManagerGmail();
 		this.managerBodyCondition = new ManagerBodyConditionImpl();
+		this.managerBilling = new ManagerBilling();
 	}
 
 	@RequestMapping(value = "/clientes", method = RequestMethod.GET)
@@ -63,13 +67,13 @@ public class AdministracaoController {
 	public String notificarCliente(Model model) {
 		return "admin/notificacao";
 	}
-	
+
 	@RequestMapping(value = "listClientCondition", method = RequestMethod.GET)
-	public String listaClientesCondition(Model model){
+	public String listaClientesCondition(Model model) {
 		model.addAttribute("clientes", this.managerClient.findAll());
 		return "admin/listClientCondition";
 	}
-	
+
 	@RequestMapping(value = "/condicaoFisica", method = RequestMethod.GET)
 	public String condicaoFisica(Long id, Model model) {
 		model.addAttribute("cliente", this.managerClient.find(id));
@@ -82,6 +86,17 @@ public class AdministracaoController {
 		return "admin/editar";
 	}
 
+	@RequestMapping(value = "/novaConta", method = RequestMethod.GET)
+	public String novaConta(Model model) {
+		return "admin/contaNova";
+	}
+	
+	@RequestMapping(value = "/listaContas", method = RequestMethod.GET)
+	public String listarContas(Model model) {
+		model.addAttribute("contas", this.managerBilling.findAll());
+		return "admin/listaConta";
+	}
+	
 	@RequestMapping(value = "/alterarCliente", method = RequestMethod.POST)
 	public String alterarCliente(Client client, Model model,
 			RedirectAttributes redirect) {
@@ -120,19 +135,6 @@ public class AdministracaoController {
 		return "redirect:clientes";
 	}
 
-	@RequestMapping(value = "cadastraNotificacao")
-	public String cadastrarNotificacao(
-			@RequestParam("mensagem") String mensagem, Model model,
-			RedirectAttributes redirect) {
-		Notification notification = new Notification();
-		notification.setMensagem(mensagem);
-		notification.setData(new Date(System.currentTimeMillis()));
-		this.managerNotification.save(notification);
-		redirect.addFlashAttribute("info",
-				"Notificacao cadastrada com sucesso!");
-		return "redirect:notificaCliente";
-	}
-
 	@RequestMapping(value = "cadastraEmail")
 	public String cadastrarEmail(@RequestParam("titulo") String titulo,
 			@RequestParam("mensagem") String mensagem, Model model,
@@ -144,13 +146,23 @@ public class AdministracaoController {
 		redirect.addFlashAttribute("info", "Email enviado com sucesso!");
 		return "redirect:notificaCliente";
 	}
-	
+
 	@RequestMapping(value = "cadastraCondicaFisicaCliente")
-	public String cadastrarCondicaoFisicaCliente(BodyCondition condition,@RequestParam("idCliente") Long id, Model model,
+	public String cadastrarCondicaoFisicaCliente(BodyCondition condition,
+			@RequestParam("idCliente") Long id, Model model,
 			RedirectAttributes redirect) {
 		this.managerBodyCondition.addBodyCondition(condition, id);
-		redirect.addFlashAttribute("info", "Condicao Fisica cadastrada com sucesso!");
+		redirect.addFlashAttribute("info",
+				"Condicao Fisica cadastrada com sucesso!");
 		return "redirect:listClientCondition";
 	}
-	
+
+	@RequestMapping(value = "cadastraNovaConta")
+	public String cadastrarNovaConta(Billing billing, Model model,
+			RedirectAttributes redirect) {
+		this.managerBilling.save(billing);	
+		redirect.addFlashAttribute("info", "Nova Conta cadastrada com sucesso!");
+		return "redirect:listaContas";
+	}
+
 }
