@@ -47,7 +47,7 @@ public class ClienteController {
 				.getId());
 		List<BodyCondition> bodyConditions = this.managerBodyCondition
 				.findByUser(Long.parseLong(session.getAttribute("idUser").toString()));
-
+//ola
 		model.addAttribute("bodyConditions", bodyConditions);
 		return "cliente/listaBodyCondition";
 	}
