@@ -42,10 +42,16 @@
 			<artifactId>costsManager</artifactId>
 			<version>1.0</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.reuso</groupId>
 			<artifactId>nutrition</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.reuso</groupId>
+			<artifactId>colaboratorManagement</artifactId>
 			<version>1.0</version>
 		</dependency>
 

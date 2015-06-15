@@ -18,15 +18,18 @@ import br.com.costumerManagement.service.IClientManager;
 import br.com.costumerManagement.service.impl.ClientManagerImpl;
 import br.com.model.Billing;
 import br.com.model.BodyCondition;
+import br.com.model.Colaborator;
 import br.com.model.Diet;
 import br.com.notification.model.Notification;
 import br.com.notification.service.IManagerNotification;
 import br.com.notification.service.impl.ManagerNotification;
 import br.com.service.IManagerBilling;
 import br.com.service.IManagerBodyCondition;
+import br.com.service.IManagerColaborator;
 import br.com.service.IManagerDiet;
 import br.com.service.impl.ManagerBilling;
 import br.com.service.impl.ManagerBodyConditionImpl;
+import br.com.service.impl.ManagerColaboratorImpl;
 import br.com.service.impl.ManagerDietImpl;
 
 import com.service.IManagerMail;
@@ -42,7 +45,7 @@ public class AdministracaoController {
 	private IManagerBodyCondition managerBodyCondition;
 	private IManagerBilling managerBilling;
 	private IManagerDiet managerDiet;
-
+	private IManagerColaborator managerColaborator;
 	public AdministracaoController() {
 		this.managerClient = new ClientManagerImpl();
 		this.managerAccount = new UsuarioManagerImpl();
@@ -51,6 +54,7 @@ public class AdministracaoController {
 		this.managerBodyCondition = new ManagerBodyConditionImpl();
 		this.managerBilling = new ManagerBilling();
 		this.managerDiet = new ManagerDietImpl();
+		this.managerColaborator = new ManagerColaboratorImpl();
 	}
 
 	@RequestMapping(value = "/clientes", method = RequestMethod.GET)
@@ -128,6 +132,24 @@ public class AdministracaoController {
 		return "redirect:listaClientesNutrition";
 	}
 
+	@RequestMapping(value = "/novoColaborator")
+	public String novoColaborator(Model model){
+		return "admin/novoColaborator";
+	}
+	
+	@RequestMapping(value = "/cadastraColaborator")
+	public String cadastrarColaborator(Colaborator colaborator, Model model, RedirectAttributes redirects){
+		this.managerColaborator.addColaborator(colaborator);
+		redirects.addFlashAttribute("info", "Colaborador " + colaborator.getNome() + " adicionado com sucesso!");
+		return "redirect:listaColaborator";
+	}
+	
+	@RequestMapping(value = "/listaColaborator", method = RequestMethod.GET)
+	public String listaColaborator(Model model){
+		model.addAttribute("colaborators", this.managerColaborator.findAll());
+		return "admin/listaColaborator";
+	}
+	
 	@RequestMapping(value = "/alterarCliente", method = RequestMethod.POST)
 	public String alterarCliente(Client client, Model model,
 			RedirectAttributes redirect) {
