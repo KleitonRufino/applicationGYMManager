@@ -60,12 +60,19 @@
 			<artifactId>supplierManagement</artifactId>
 			<version>1.0</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.reuso</groupId>
 			<artifactId>personalTrainer</artifactId>
 			<version>1.0</version>
 		</dependency>
+
+		<dependency>
+			<groupId>com.reuso</groupId>
+			<artifactId>monthlyPaymentManager</artifactId>
+			<version>1.0</version>
+		</dependency>
+
 
 		<!-- Spring -->
 		<dependency>
@@ -85,6 +92,8 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>4.1.2.RELEASE</version>
 		</dependency>
+
+
 
 		<!-- Log4J -->
 		<dependency>

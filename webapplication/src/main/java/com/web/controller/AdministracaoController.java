@@ -16,6 +16,7 @@ import br.com.accoutManager.service.IUsuarioManager;
 import br.com.costumerManagement.model.Client;
 import br.com.costumerManagement.service.IClientManager;
 import br.com.costumerManagement.service.impl.ClientManagerImpl;
+import br.com.dao.ManagerMonthlyDAO;
 import br.com.enume.DiaDaSemana;
 import br.com.model.Billing;
 import br.com.model.BodyCondition;
@@ -32,6 +33,7 @@ import br.com.service.IManagerBodyCondition;
 import br.com.service.IManagerColaborator;
 import br.com.service.IManagerDiet;
 import br.com.service.IManagerGuiaDeTreinos;
+import br.com.service.IManagerMonthlyPayment;
 import br.com.service.IManagerProduct;
 import br.com.service.IManagerSupplier;
 import br.com.service.impl.ManagerBilling;
@@ -41,6 +43,7 @@ import br.com.service.impl.ManagerDietImpl;
 import br.com.service.impl.ManagerGuiaDeTreinosImpl;
 import br.com.service.impl.ManagerProduct;
 import br.com.service.impl.ManagerSupplierImpl;
+import br.com.service.impl.MonthlyPaymentManager;
 
 import com.service.IManagerMail;
 import com.service.impl.ManagerGmail;
@@ -59,7 +62,7 @@ public class AdministracaoController {
 	private IManagerSupplier managerSupplier;
 	private IManagerProduct managerProduct;
 	private IManagerGuiaDeTreinos managerGuiaDeTreinos;
-
+	private IManagerMonthlyPayment managerMonthlyPayment;
 	public AdministracaoController() {
 		this.managerClient = new ClientManagerImpl();
 		this.managerAccount = new UsuarioManagerImpl();
@@ -72,6 +75,7 @@ public class AdministracaoController {
 		this.managerSupplier = new ManagerSupplierImpl();
 		this.managerProduct = new ManagerProduct();
 		this.managerGuiaDeTreinos = new ManagerGuiaDeTreinosImpl();
+		this.managerMonthlyPayment = new MonthlyPaymentManager();
 	}
 
 	@RequestMapping(value = "/clientes", method = RequestMethod.GET)
@@ -329,5 +333,16 @@ public class AdministracaoController {
 				"Novo treino cadastrado com sucesso!");
 		return "redirect:listaClienteGuiaDeTreino";
 	}
+	
+	@RequestMapping(value = "/verificarPendencias")
+	public String verificarPendencias(Model model){
+		this.managerMonthlyPayment.verificarMensalidade();
+		model.addAttribute("clientes", this.managerMonthlyPayment.listarClientesNaoPagos());
+		return "admin/verificaPendencias";
+	}
 
+	@RequestMapping(value = "/atualizaPendencias", method = RequestMethod.GET)
+	public String atualizarPendencias(Model model){
+		return "redirect:verificarPendencias";
+	}
 }

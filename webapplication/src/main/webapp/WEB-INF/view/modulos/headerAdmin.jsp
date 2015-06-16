@@ -81,6 +81,8 @@
 									href="/webapplication/administracao/listClientCondition">Condicao</a></li>
 								<li><a
 									href="/webapplication/administracao/listaClienteGuiaDeTreino">Treino</a></li>
+									<li><a
+									href="/webapplication/administracao/verificarPendencias">Pendencias</a></li>
 							</ul></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
