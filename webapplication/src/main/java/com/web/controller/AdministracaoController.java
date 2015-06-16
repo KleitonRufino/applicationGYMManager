@@ -16,10 +16,12 @@ import br.com.accoutManager.service.IUsuarioManager;
 import br.com.costumerManagement.model.Client;
 import br.com.costumerManagement.service.IClientManager;
 import br.com.costumerManagement.service.impl.ClientManagerImpl;
+import br.com.enume.DiaDaSemana;
 import br.com.model.Billing;
 import br.com.model.BodyCondition;
 import br.com.model.Colaborator;
 import br.com.model.Diet;
+import br.com.model.GuiaDeTreino;
 import br.com.model.Product;
 import br.com.model.Supplier;
 import br.com.notification.model.Notification;
@@ -29,12 +31,14 @@ import br.com.service.IManagerBilling;
 import br.com.service.IManagerBodyCondition;
 import br.com.service.IManagerColaborator;
 import br.com.service.IManagerDiet;
+import br.com.service.IManagerGuiaDeTreinos;
 import br.com.service.IManagerProduct;
 import br.com.service.IManagerSupplier;
 import br.com.service.impl.ManagerBilling;
 import br.com.service.impl.ManagerBodyConditionImpl;
 import br.com.service.impl.ManagerColaboratorImpl;
 import br.com.service.impl.ManagerDietImpl;
+import br.com.service.impl.ManagerGuiaDeTreinosImpl;
 import br.com.service.impl.ManagerProduct;
 import br.com.service.impl.ManagerSupplierImpl;
 
@@ -54,6 +58,7 @@ public class AdministracaoController {
 	private IManagerColaborator managerColaborator;
 	private IManagerSupplier managerSupplier;
 	private IManagerProduct managerProduct;
+	private IManagerGuiaDeTreinos managerGuiaDeTreinos;
 
 	public AdministracaoController() {
 		this.managerClient = new ClientManagerImpl();
@@ -66,6 +71,7 @@ public class AdministracaoController {
 		this.managerColaborator = new ManagerColaboratorImpl();
 		this.managerSupplier = new ManagerSupplierImpl();
 		this.managerProduct = new ManagerProduct();
+		this.managerGuiaDeTreinos = new ManagerGuiaDeTreinosImpl();
 	}
 
 	@RequestMapping(value = "/clientes", method = RequestMethod.GET)
@@ -296,4 +302,32 @@ public class AdministracaoController {
 		return "redirect:notificaCliente";
 
 	}
+
+	@RequestMapping(value = "/listaClienteGuiaDeTreino", method = RequestMethod.GET)
+	public String listarClientesParaGuiaDeTreino(Model model) {
+		model.addAttribute("clientes", this.managerClient.findAll());
+		return "admin/listClientGuiaDeTreino";
+	}
+
+	@RequestMapping(value = "/novoTreino", method = RequestMethod.GET)
+	public String novoTreino(Long id, Model model) {
+		model.addAttribute("idCliente", id);
+		return "admin/novoTreino";
+	}
+
+	@RequestMapping(value = "/adicionaTreino")
+	public String cadastraTreino(@RequestParam("nome") String nome,
+			@RequestParam("descricaoTreino") String descricaoTreino,
+			@RequestParam("idCliente") Long idCliente, Model model,
+			RedirectAttributes redirect) {
+		GuiaDeTreino guia = new GuiaDeTreino();
+		guia.setNome(nome);
+		guia.setDiaDaSemana(DiaDaSemana.QUARTA);
+		guia.setDescricaoTreino(descricaoTreino);
+		this.managerGuiaDeTreinos.save(guia, idCliente);
+		redirect.addFlashAttribute("info",
+				"Novo treino cadastrado com sucesso!");
+		return "redirect:listaClienteGuiaDeTreino";
+	}
+
 }

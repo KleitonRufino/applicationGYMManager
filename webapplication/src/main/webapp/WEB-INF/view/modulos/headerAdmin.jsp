@@ -14,7 +14,8 @@
 							class="icon-bar"></span> <span class="icon-bar"></span> <span
 							class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="/webapplication/administracao/voltarIndex">GYMManager</a>
+					<a class="navbar-brand"
+						href="/webapplication/administracao/voltarIndex">GYMManager</a>
 				</div>
 				<div id="navbar" class="navbar-collapse collapse">
 					<ul class="nav navbar-nav">
@@ -78,9 +79,12 @@
 								<li><a href="/webapplication/administracao/enviaEmail">Email</a></li>
 								<li><a
 									href="/webapplication/administracao/listClientCondition">Condicao</a></li>
+								<li><a
+									href="/webapplication/administracao/listaClienteGuiaDeTreino">Treino</a></li>
 							</ul></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
+						<li><a href="/webapplication/sair">Sair</a></li>
 					</ul>
 				</div>
 				<!--/.nav-collapse -->

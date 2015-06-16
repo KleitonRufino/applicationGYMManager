@@ -40,15 +40,15 @@ body {
 			<tr>
 				<th>#</th>
 				<th>Nome</th>
-				<th>Condicao Fisica</th>
+				<th>Treino</th>
 			</tr>
 
 			<c:forEach items="${clientes}" var="cliente">
 				<tr id="cliente_${cliente.id}">
 					<td>${cliente.id}</td>
 					<td>${cliente.nome }</td>
-					<td><a href="condicaoFisica?id=${cliente.id}" role="button"
-						class="btn btn-primary">Nova</a></td>
+					<td><a href="novoTreino?id=${cliente.id}" role="button"
+						class="btn btn-primary">Novo</a></td>
 				</tr>
 			</c:forEach>
 		</table>
