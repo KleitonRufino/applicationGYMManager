@@ -9,12 +9,11 @@ import br.com.service.IManagerGuiaDeTreinos;
 
 public class ManagerGuiaDeTreinosImpl implements IManagerGuiaDeTreinos {
 	GuiaDetreinoDAO dao = new GuiaDetreinoDAO();
-	
-	@Override
-	public void save(GuiaDeTreino guia) {
-		dao.save(guia);
-	}
 
+	@Override
+	public void save(GuiaDeTreino guia, Long idCliente) {
+		this.dao.save(guia, idCliente);
+	}
 
 	@Override
 	public GuiaDeTreino findTreinoDoDia(Long clienteId, DiaDaSemana dia) {

@@ -7,7 +7,7 @@ import br.com.model.GuiaDeTreino;
 
 public interface IManagerGuiaDeTreinos {
 	
-	public void save(GuiaDeTreino message);
+	public void save(GuiaDeTreino guiaDeTreino, Long idCliente);
 	public GuiaDeTreino findTreinoDoDia(Long clienteId, DiaDaSemana dia);
 	public List<GuiaDeTreino> findTreinos(Long clienteId);
 	public List<GuiaDeTreino> findAll();
