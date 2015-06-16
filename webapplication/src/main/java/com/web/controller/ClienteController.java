@@ -20,8 +20,10 @@ import br.com.notification.service.IManagerNotification;
 import br.com.notification.service.impl.ManagerNotification;
 import br.com.service.IManagerBodyCondition;
 import br.com.service.IManagerDiet;
+import br.com.service.IManagerGuiaDeTreinos;
 import br.com.service.impl.ManagerBodyConditionImpl;
 import br.com.service.impl.ManagerDietImpl;
+import br.com.service.impl.ManagerGuiaDeTreinosImpl;
 
 @Controller
 @RequestMapping("cliente")
@@ -30,12 +32,14 @@ public class ClienteController {
 	private IManagerDiet managerDiet;
 	private IManagerNotification managerNotification;
 	private IManagerBodyCondition managerBodyCondition;
+	private IManagerGuiaDeTreinos managerGuiaDeTreinos;
 
 	public ClienteController() {
 		this.managerDiet = new ManagerDietImpl();
 		this.managerClient = new ClientManagerImpl();
 		this.managerNotification = new ManagerNotification();
 		this.managerBodyCondition = new ManagerBodyConditionImpl();
+		this.managerGuiaDeTreinos = new ManagerGuiaDeTreinosImpl();
 	}
 
 	@RequestMapping(value = "/listarnotifications", method = RequestMethod.GET)
@@ -83,5 +87,14 @@ public class ClienteController {
 								.toString())).getId());
 		model.addAttribute("dietas", dietas);
 		return "cliente/listaDieta";
+	}
+
+	@RequestMapping(value = "/listarHistoricoTreino")
+	public String listarHistoricoTreino(Model model, HttpSession session) {
+		Long id = Long.parseLong(session.getAttribute("idUser").toString());
+		Client client = this.managerClient.findByIdUser(id);
+		model.addAttribute("treinos",
+				this.managerGuiaDeTreinos.findTreinos(client.getId()));
+		return "cliente/listaHistoricoTreino";
 	}
 }
