@@ -25,10 +25,10 @@ public class ExtraActivityDAO {
 			while (rs.next()) {
 				extraActivity = new ExtraActivity();
 				extraActivity.setId(rs.getLong("id"));
-				extraActivity.setNomeAtividade(rs.getString("nome"));
-				extraActivity.setNomeAtividade(rs.getString("duracao"));
-				extraActivity.setDiaAtividade(rs.getDate("diaatividade"));
-				extraActivity.setDiaAtividade(rs.getDate("horaatividade"));
+				extraActivity.setNome(rs.getString("nome"));
+				extraActivity.setDuracao(rs.getString("duracao"));
+				extraActivity.setDiaatividade(rs.getDate("diaatividade"));
+				extraActivity.setHoraatividade(rs.getString("horaatividade"));
 				extraActivitys.add(extraActivity);
 			}
 		} catch (SQLException e) {
@@ -50,10 +50,10 @@ public class ExtraActivityDAO {
 		String sql = "insert into atividadeextra(nome, duracao, diaatividade, horaatividade, cliente_id) values (?, ?, ?, ?, ?)";
 		try {
 			insere = (PreparedStatement) conexao.prepareStatement(sql);
-			insere.setString(1, extraActivity.getNomeAtividade());
-			insere.setString(2, extraActivity.getDuracaoAtividade());
-			insere.setDate(3, extraActivity.getDiaAtividade());
-			insere.setDate(4, extraActivity.getHoraAtividade());
+			insere.setString(1, extraActivity.getNome());
+			insere.setString(2, extraActivity.getDuracao());
+			insere.setDate(3, extraActivity.getDiaatividade());
+			insere.setString(4, extraActivity.getHoraatividade());
 			insere.setLong(5, idClient);
 			insere.executeUpdate();
 		} catch (SQLException e) {
@@ -68,17 +68,17 @@ public class ExtraActivityDAO {
 		}
 	}
 
-	public void updateExtraActivity(ExtraActivity extraActivity) {
+	public void updateExtraActivity(ExtraActivity extraActivity, Long idCliente) {
 		Connection conexao = Conexao.getConnection();
 		PreparedStatement update = null;
 		String sql = "update atividadeextra set nome=?, duracao=?, diaatividade=?, horaatividade=?, cliente_id=? where id=?";
 		try {
 			update = (PreparedStatement) conexao.prepareStatement(sql);
-			update.setString(1, extraActivity.getNomeAtividade());
-			update.setString(2, extraActivity.getDuracaoAtividade());
-			update.setDate(3, extraActivity.getDiaAtividade());
-			update.setDate(4, extraActivity.getHoraAtividade());
-			update.setLong(5, extraActivity.getIdCliente());
+			update.setString(1, extraActivity.getNome());
+			update.setString(2, extraActivity.getDuracao());
+			update.setDate(3, extraActivity.getDiaatividade());
+			update.setString(4, extraActivity.getHoraatividade());
+			update.setLong(5, idCliente);
 			update.setLong(6, extraActivity.getId());
 			update.executeUpdate();
 		} catch (SQLException e) {

@@ -1,8 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
 <html>
 <head>
-
 <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 <link rel="stylesheet"
@@ -17,13 +15,13 @@ body {
 	padding-bottom: 20px;
 }
 
-.navbar {
+.table {
 	margin-bottom: 20px;
 }
 </style>
 
-<jsp:include page="../modulos/headerAdmin.jsp" />
-<title>Insert title here</title>
+<jsp:include page="../modulos/headerCliente.jsp" />
+<title>Lista Notificacao</title>
 </head>
 <body>
 	<div class="container">
@@ -39,20 +37,23 @@ body {
 		<table class="table table-striped">
 			<tr>
 				<th>#</th>
-				<th>Nome</th>
-				<th>Condicao Fisica</th>
+				<th>nome</th>
+				<th>duracao</th>
+				<th>dia atividade</th>
+				<th>hora atividade</th>
+				<th></th>
 			</tr>
-
-			<c:forEach items="${clientes}" var="cliente">
-				<tr id="cliente_${cliente.id}">
-					<td>${cliente.id}</td>
-					<td>${cliente.nome }</td>
-					<td><a href="condicaoFisica?id=${cliente.id}" role="button"
-						class="btn btn-primary">Nova</a></td>
+			<c:forEach items="${activities}" var="activitie">
+				<tr id="activitie_${activitie.id}">
+					<td>${activitie.id}</td>
+					<td>${activitie.nome }</td>
+					<td>${activitie.duracao }</td>
+					<td>${activitie.diaatividade }</td>
+					<td>${activitie.horaatividade }</td>
+					<th></th>
 				</tr>
 			</c:forEach>
 		</table>
-
 	</div>
 </body>
 </html>

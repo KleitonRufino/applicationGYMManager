@@ -30,7 +30,7 @@ public class ManagerExtraActivityImpl implements IManagerExtraActivity {
 
 	@Override
 	public void updateExtraActivity(ExtraActivity extraActivity, Long idClient) {
-		this.dao.updateExtraActivity(extraActivity);
+		this.dao.updateExtraActivity(extraActivity, idClient);
 	}
 
 }

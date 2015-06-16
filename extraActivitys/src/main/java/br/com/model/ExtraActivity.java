@@ -4,11 +4,10 @@ import java.sql.Date;
 
 public class ExtraActivity {
 	private Long id;
-	private Long idCliente;
-	private String nomeAtividade;
-	private String duracaoAtividade;
-	private Date diaAtividade;
-	private Date horaAtividade;
+	private String nome;
+	private String duracao;
+	private Date diaatividade;
+	private String horaatividade;
 
 	public Long getId() {
 		return id;
@@ -18,44 +17,37 @@ public class ExtraActivity {
 		this.id = id;
 	}
 
-	public Long getIdCliente() {
-		return idCliente;
+	public String getNome() {
+		return nome;
 	}
 
-	public void setIdCliente(Long idCliente) {
-		this.idCliente = idCliente;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
-	public String getNomeAtividade() {
-		return nomeAtividade;
+	public String getDuracao() {
+		return duracao;
 	}
 
-	public void setNomeAtividade(String nomeAtividade) {
-		this.nomeAtividade = nomeAtividade;
+	public void setDuracao(String duracao) {
+		this.duracao = duracao;
 	}
 
-	public String getDuracaoAtividade() {
-		return duracaoAtividade;
+	public Date getDiaatividade() {
+		return diaatividade;
 	}
 
-	public void setDuracaoAtividade(String duracaoAtividade) {
-		this.duracaoAtividade = duracaoAtividade;
+	public void setDiaatividade(Date diaatividade) {
+		this.diaatividade = diaatividade;
 	}
 
-	public Date getDiaAtividade() {
-		return diaAtividade;
+	public String getHoraatividade() {
+		return horaatividade;
 	}
 
-	public void setDiaAtividade(Date diaAtividade) {
-		this.diaAtividade = diaAtividade;
+	public void setHoraatividade(String horaatividade) {
+		this.horaatividade = horaatividade;
 	}
 
-	public Date getHoraAtividade() {
-		return horaAtividade;
-	}
-
-	public void setHoraAtividade(Date horaAtividade) {
-		this.horaAtividade = horaAtividade;
-	}
 
 }

@@ -15,14 +15,17 @@ import br.com.costumerManagement.service.IClientManager;
 import br.com.costumerManagement.service.impl.ClientManagerImpl;
 import br.com.model.BodyCondition;
 import br.com.model.Diet;
+import br.com.model.ExtraActivity;
 import br.com.notification.model.Notification;
 import br.com.notification.service.IManagerNotification;
 import br.com.notification.service.impl.ManagerNotification;
 import br.com.service.IManagerBodyCondition;
 import br.com.service.IManagerDiet;
+import br.com.service.IManagerExtraActivity;
 import br.com.service.IManagerGuiaDeTreinos;
 import br.com.service.impl.ManagerBodyConditionImpl;
 import br.com.service.impl.ManagerDietImpl;
+import br.com.service.impl.ManagerExtraActivityImpl;
 import br.com.service.impl.ManagerGuiaDeTreinosImpl;
 
 @Controller
@@ -30,11 +33,13 @@ import br.com.service.impl.ManagerGuiaDeTreinosImpl;
 public class ClienteController {
 	private IClientManager managerClient;
 	private IManagerDiet managerDiet;
+	private IManagerExtraActivity managerExtraActivity;
 	private IManagerNotification managerNotification;
 	private IManagerBodyCondition managerBodyCondition;
 	private IManagerGuiaDeTreinos managerGuiaDeTreinos;
 
 	public ClienteController() {
+		this.managerExtraActivity = new ManagerExtraActivityImpl();
 		this.managerDiet = new ManagerDietImpl();
 		this.managerClient = new ClientManagerImpl();
 		this.managerNotification = new ManagerNotification();
@@ -96,5 +101,15 @@ public class ClienteController {
 		model.addAttribute("treinos",
 				this.managerGuiaDeTreinos.findTreinos(client.getId()));
 		return "cliente/listaHistoricoTreino";
+	}
+
+	@RequestMapping(value = "/listarAtividadesExtras")
+	public String listarAtividadesExtras(Model model, HttpSession session) {
+		List<ExtraActivity> activities = this.managerExtraActivity
+				.findByExtraActivityByUser(managerClient.findByIdUser(
+						Long.parseLong(session.getAttribute("idUser")
+								.toString())).getId());
+		model.addAttribute("activities", activities);
+		return "cliente/listaAtividadesExtras";
 	}
 }

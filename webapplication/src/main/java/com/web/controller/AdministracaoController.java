@@ -22,6 +22,7 @@ import br.com.model.Billing;
 import br.com.model.BodyCondition;
 import br.com.model.Colaborator;
 import br.com.model.Diet;
+import br.com.model.ExtraActivity;
 import br.com.model.GuiaDeTreino;
 import br.com.model.Product;
 import br.com.model.Supplier;
@@ -32,6 +33,7 @@ import br.com.service.IManagerBilling;
 import br.com.service.IManagerBodyCondition;
 import br.com.service.IManagerColaborator;
 import br.com.service.IManagerDiet;
+import br.com.service.IManagerExtraActivity;
 import br.com.service.IManagerGuiaDeTreinos;
 import br.com.service.IManagerMonthlyPayment;
 import br.com.service.IManagerProduct;
@@ -40,6 +42,7 @@ import br.com.service.impl.ManagerBilling;
 import br.com.service.impl.ManagerBodyConditionImpl;
 import br.com.service.impl.ManagerColaboratorImpl;
 import br.com.service.impl.ManagerDietImpl;
+import br.com.service.impl.ManagerExtraActivityImpl;
 import br.com.service.impl.ManagerGuiaDeTreinosImpl;
 import br.com.service.impl.ManagerProduct;
 import br.com.service.impl.ManagerSupplierImpl;
@@ -52,6 +55,7 @@ import com.service.impl.ManagerGmail;
 @RequestMapping("administracao")
 public class AdministracaoController {
 	private IClientManager managerClient;
+	private IManagerExtraActivity managerExtraActivity;
 	private IUsuarioManager managerAccount;
 	private IManagerNotification managerNotification;
 	private IManagerMail managerMail;
@@ -65,6 +69,7 @@ public class AdministracaoController {
 	private IManagerMonthlyPayment managerMonthlyPayment;
 
 	public AdministracaoController() {
+		this.managerExtraActivity = new ManagerExtraActivityImpl();
 		this.managerClient = new ClientManagerImpl();
 		this.managerAccount = new UsuarioManagerImpl();
 		this.managerNotification = new ManagerNotification();
@@ -112,10 +117,22 @@ public class AdministracaoController {
 		return "admin/listClientCondition";
 	}
 
+	@RequestMapping(value = "ListClientAtividadesExtras", method = RequestMethod.GET)
+	public String listClientesAtividadesExtras(Model model) {
+		model.addAttribute("clientes", this.managerClient.findAll());
+		return "admin/ListClientAtividadesExtras";
+	}
+
 	@RequestMapping(value = "/condicaoFisica", method = RequestMethod.GET)
 	public String condicaoFisica(Long id, Model model) {
 		model.addAttribute("cliente", this.managerClient.find(id));
 		return "admin/condition";
+	}
+
+	@RequestMapping(value = "/atividadeExtra", method = RequestMethod.GET)
+	public String AtividadesExtras(Long id, Model model) {
+		model.addAttribute("cliente", this.managerClient.find(id));
+		return "admin/atividadeExtra";
 	}
 
 	@RequestMapping(value = "/editar", method = RequestMethod.GET)
@@ -274,7 +291,8 @@ public class AdministracaoController {
 		Long senha = gerador.nextLong();
 		usuario.setSenha(String.valueOf(senha));
 		this.managerAccount.update(usuario);
-		this.managerMail.email(usuario.getLogin(), titulo, "Sua nova senha é " + senha);
+		this.managerMail.email(usuario.getLogin(), titulo, "Sua nova senha é "
+				+ senha);
 
 		redirect.addFlashAttribute("info", "Email enviado com sucesso!");
 		return "redirect:enviaEmail";
@@ -288,6 +306,16 @@ public class AdministracaoController {
 		redirect.addFlashAttribute("info",
 				"Condicao Fisica cadastrada com sucesso!");
 		return "redirect:listClientCondition";
+	}
+
+	@RequestMapping(value = "/cadastrarAtividadeExtra")
+	public String cadastrarAtividadeExtra(ExtraActivity extraActivity,
+			@RequestParam("idCliente") Long id, Model model,
+			RedirectAttributes redirect) {
+		this.managerExtraActivity.addExtraActivity(extraActivity, id);
+		redirect.addFlashAttribute("info",
+				"Atividade Extra cadastrada com sucesso!");
+		return "redirect:ListClientAtividadesExtras";
 	}
 
 	@RequestMapping(value = "cadastraNovaConta")

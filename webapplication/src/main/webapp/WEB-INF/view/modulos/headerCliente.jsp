@@ -34,8 +34,8 @@
 								Fisica <span class="caret"></span>
 						</a>
 							<ul class="dropdown-menu" role="menu">
-								<li><a href="/webapplication/cliente/listarBodyCondition">Minhas
-										CF</a></li>
+								<li><a href="/webapplication/cliente/listarBodyCondition">Mostrar Minhas
+										Condições Fisicas</a></li>
 							</ul></li>
 					</ul>
 					<ul class="nav navbar-nav">
@@ -56,6 +56,15 @@
 							<ul class="dropdown-menu" role="menu">
 								<li><a href="/webapplication/cliente/listarHistoricoTreino">Historico
 										Treino </a></li>
+							</ul></li>
+					</ul>
+					<ul class="nav navbar-nav">
+						<li class="dropdown"><a href="#" class="dropdown-toggle"
+							data-toggle="dropdown" role="button" aria-expanded="true">Atividades Extras
+								<span class="caret"></span>
+						</a>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="/webapplication/cliente/listarAtividadesExtras">Mostrar Atividades </a></li>
 							</ul></li>
 					</ul>
 					<ul class="nav navbar-nav">

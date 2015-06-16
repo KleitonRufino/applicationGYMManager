@@ -80,6 +80,8 @@
 								<li><a
 									href="/webapplication/administracao/listClientCondition">Condicao</a></li>
 								<li><a
+									href="/webapplication/administracao/ListClientAtividadesExtras">Atividades Extras</a></li>
+								<li><a
 									href="/webapplication/administracao/listaClienteGuiaDeTreino">Treino</a></li>
 									<li><a
 									href="/webapplication/administracao/verificarPendencias">Pendencias</a></li>
