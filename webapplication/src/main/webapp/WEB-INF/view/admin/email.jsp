@@ -38,10 +38,9 @@ body {
 		</c:if>
 		<form action="/webapplication/administracao/cadastraEmail"
 			method="post">
-			<input type="text" class="form-control" placeholder="Titulo E-mail"
-				name="titulo" /> <br />
-			<textarea class="form-control" rows="3" name="mensagem"></textarea>
-			<br />
+			<input type="text" class="form-control" placeholder="E-mail"
+				name="email" /> <br /> <input type="text" class="form-control"
+				placeholder="Titulo E-mail" name="titulo" /> <br /> <br />
 			<button type="submit" class="btn btn-primary">Cadastrar</button>
 		</form>
 

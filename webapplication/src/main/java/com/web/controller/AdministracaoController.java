@@ -2,6 +2,7 @@ package com.web.controller;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +17,6 @@ import br.com.accoutManager.service.IUsuarioManager;
 import br.com.costumerManagement.model.Client;
 import br.com.costumerManagement.service.IClientManager;
 import br.com.costumerManagement.service.impl.ClientManagerImpl;
-import br.com.dao.ManagerMonthlyDAO;
 import br.com.enume.DiaDaSemana;
 import br.com.model.Billing;
 import br.com.model.BodyCondition;
@@ -63,6 +63,7 @@ public class AdministracaoController {
 	private IManagerProduct managerProduct;
 	private IManagerGuiaDeTreinos managerGuiaDeTreinos;
 	private IManagerMonthlyPayment managerMonthlyPayment;
+
 	public AdministracaoController() {
 		this.managerClient = new ClientManagerImpl();
 		this.managerAccount = new UsuarioManagerImpl();
@@ -265,15 +266,18 @@ public class AdministracaoController {
 	}
 
 	@RequestMapping(value = "cadastraEmail")
-	public String cadastrarEmail(@RequestParam("titulo") String titulo,
-			@RequestParam("mensagem") String mensagem, Model model,
+	public String cadastrarEmail(@RequestParam("email") String email,
+			@RequestParam("titulo") String titulo, Model model,
 			RedirectAttributes redirect) {
-		List<Usuario> usuarios = this.managerAccount.findAll();
-		for (Usuario usuario : usuarios) {
-			this.managerMail.email(usuario.getLogin(), titulo, mensagem);
-		}
+		Usuario usuario = this.managerAccount.find(email);
+		Random gerador = new Random();
+		Long senha = gerador.nextLong();
+		usuario.setSenha(String.valueOf(senha));
+		this.managerAccount.update(usuario);
+		this.managerMail.email(usuario.getLogin(), titulo, "Sua nova senha é " + senha);
+
 		redirect.addFlashAttribute("info", "Email enviado com sucesso!");
-		return "redirect:notificaCliente";
+		return "redirect:enviaEmail";
 	}
 
 	@RequestMapping(value = "cadastraCondicaFisicaCliente")
@@ -333,16 +337,17 @@ public class AdministracaoController {
 				"Novo treino cadastrado com sucesso!");
 		return "redirect:listaClienteGuiaDeTreino";
 	}
-	
+
 	@RequestMapping(value = "/verificarPendencias")
-	public String verificarPendencias(Model model){
+	public String verificarPendencias(Model model) {
 		this.managerMonthlyPayment.verificarMensalidade();
-		model.addAttribute("clientes", this.managerMonthlyPayment.listarClientesNaoPagos());
+		model.addAttribute("clientes",
+				this.managerMonthlyPayment.listarClientesNaoPagos());
 		return "admin/verificaPendencias";
 	}
 
 	@RequestMapping(value = "/atualizaPendencias", method = RequestMethod.GET)
-	public String atualizarPendencias(Model model){
+	public String atualizarPendencias(Model model) {
 		return "redirect:verificarPendencias";
 	}
 }
